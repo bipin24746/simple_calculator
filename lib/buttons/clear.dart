@@ -1,25 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DivisionButton extends StatelessWidget {
+class Clear extends StatelessWidget {
   final TextEditingController num1Controller;
   final TextEditingController num2Controller;
   final Function(String) setResult;
-  const DivisionButton(
+  const Clear(
       {super.key,
       required this.num1Controller,
       required this.num2Controller,
       required this.setResult});
 
-  void division() {
-    try {
-      int num1 = int.parse(num1Controller.text);
-      int num2 = int.parse(num2Controller.text);
-      String result = (num1 / num2).toString();
-      setResult(result);
-    } catch (e) {
-      setResult("error");
-    }
+  void clearAll() {
+    num1Controller.clear();
+    num2Controller.clear();
+    setResult("0");
   }
 
   @override
@@ -27,9 +22,9 @@ class DivisionButton extends StatelessWidget {
     return Container(
       child: ElevatedButton(
           onPressed: () {
-            division();
+            clearAll();
           },
-          child: Icon(CupertinoIcons.divide)),
+          child: Text("C")),
     );
   }
 }

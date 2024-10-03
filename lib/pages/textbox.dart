@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_calculator/buttons/add.dart';
+import 'package:simple_calculator/buttons/clear.dart';
 import 'package:simple_calculator/buttons/division.dart';
 import 'package:simple_calculator/buttons/multiply.dart';
 import 'package:simple_calculator/buttons/subtract.dart';
@@ -12,8 +13,9 @@ class Textbox extends StatefulWidget {
 }
 
 class _TextboxState extends State<Textbox> {
-  int num1 = 10;
-  int num2 = 20;
+  TextEditingController num1 = TextEditingController();
+
+  TextEditingController num2 = TextEditingController();
   String result = 'result';
   void setResult(String newResult) {
     setState(() {
@@ -33,12 +35,21 @@ class _TextboxState extends State<Textbox> {
                 SizedBox(
                     height: 50,
                     width: MediaQuery.of(context).size.width,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Text('$num1'),
+                    child: TextFormField(
+                      controller: num1, // Attach the TextEditingController here
+                      decoration: InputDecoration(
+                        contentPadding:
+                            EdgeInsets.all(16), // Padding inside the text field
+                        border: OutlineInputBorder(
+                          // Adds a border with rounded corners
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        hintText:
+                            'Enter a Number', // Hint text inside the field
+                      ),
+                      keyboardType:
+                          TextInputType.number, // Set the input type to numbers
                     ))
                 // TextFormField(
                 //   decoration: InputDecoration(
@@ -57,12 +68,20 @@ class _TextboxState extends State<Textbox> {
             SizedBox(
                 height: 50,
                 width: MediaQuery.of(context).size.width,
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Text('$num2'),
+                child: TextFormField(
+                  controller: num2, // Attach the TextEditingController here
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.all(16), // Padding inside the text field
+                    border: OutlineInputBorder(
+                      // Adds a border with rounded corners
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    hintText: 'Enter a Number', // Hint text inside the field
+                  ),
+                  keyboardType:
+                      TextInputType.number, // Set the input type to numbers
                 )),
             // Column(
             //   children: [
@@ -84,21 +103,33 @@ class _TextboxState extends State<Textbox> {
                 Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: AddButton(
-                      num1: num1,
-                      num2: num2,
+                      num1Controller: num1,
+                      num2Controller: num2,
                       setResult: setResult,
                     )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SubtractButton(),
+                  child: SubtractButton(
+                    num1Controller: num1,
+                    num2Controller: num2,
+                    setResult: setResult,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: MultiplyButtons(),
+                  child: MultiplyButtons(
+                    num1Controller: num1,
+                    num2Controller: num2,
+                    setResult: setResult,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: DivisionButton(),
+                  child: DivisionButton(
+                    num1Controller: num1,
+                    num2Controller: num2,
+                    setResult: setResult,
+                  ),
                 )
               ],
             ),
@@ -118,6 +149,14 @@ class _TextboxState extends State<Textbox> {
                       child: Text("$result"),
                     )),
               ],
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Clear(
+              num1Controller: num1,
+              num2Controller: num2,
+              setResult: setResult,
             )
           ],
         ),
